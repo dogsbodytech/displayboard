@@ -18,6 +18,6 @@ jobs:
       - name: Port Knock
         run: nc -w 1 ${{ secrets.REMOTE_HOST }} ${{ secrets.PORT_KNOCK_PORT }} || true
       - name: Test connection with ssh
-        run: ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} date
+        run: ssh -v ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} date
       - name: Deploy with rsync
         run: rsync -avz ./dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:wibble
