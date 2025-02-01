@@ -13,7 +13,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          echo -e "Host ${{ secrets.REMOTE_HOST }}\n    VerifyHostKeyDNS yes\n" > ~/.ssh/config
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa
       - name: Port Knock
         run: nc -w 1 ${{ secrets.REMOTE_HOST }} ${{ secrets.PORT_KNOCK_PORT }} || true
