@@ -1,0 +1,21 @@
+name: Deploy to Server
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo -e "Host ${{ secrets.REMOTE_HOST }}\n    VerifyHostKeyDNS yes\n" > ~/.ssh/config
+          chmod 600 ~/.ssh/id_rsa
+      - name: Port Knock
+        run: nc -w 1 ${{ secrets.REMOTE_HOST }} ${{ secrets.PORT_KNOCK_PORT }}
+      - name: Deploy with rsync
+        run: rsync -avz ./dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:wibble
