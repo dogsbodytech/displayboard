@@ -29,6 +29,16 @@ if ($apiKey == "NotSet" || $calendarId == "NotSet") {
     exit;
 }
 
+require '../../google-api-php-client/vendor/autoload.php';
+
+use Google\Client;
+use Google\Service\Calendar;
+
+$calendar = $service->calendars->get('primary');
+
+echo $calendar->getSummary();
+
+
 // Return cached files if exists and is still valid
 if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTime) {
     header('Content-Type: application/json');

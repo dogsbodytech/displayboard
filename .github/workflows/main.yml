@@ -14,6 +14,15 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+      - name: PHP API client
+        # Get the official PHP client library for Google APIs 
+        #   We are hard coding v2.18.2 for PHP 8.0 - PHP 8.2
+        #   Lets see if this breaks! :-p 
+        #   https://github.com/googleapis/google-api-php-client/releases
+        run: |
+          mkdir -p google-api-php-client
+          wget https://github.com/googleapis/google-api-php-client/releases/download/v2.18.2/google-api-php-client--PHP8.0.zip -O google-api-php-client/google-api-php-client.zip
+          unzip google-api-php-client/google-api-php-client.zip -d google-api-php-client
       - name: Port Knock
         # We have to add the "|| true" else the nc times out (as we want) but 
         #   returns an error code which stops GitHub Actions from continuining
