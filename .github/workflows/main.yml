@@ -13,10 +13,11 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa
       - name: Port Knock
         run: nc -w 1 ${{ secrets.REMOTE_HOST }} ${{ secrets.PORT_KNOCK_PORT }} || true
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
       - name: Test connection with ssh
         run: ssh -v ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} date
       - name: Deploy with rsync
