@@ -24,7 +24,14 @@ $apiKey = "NotSet";
 $cacheFile = '../../cache/appbeatproxy.cache';
 $cacheDuration = 28;  // two seconds less than the webpage 
 
-require '../../config/appbeatproxy.config';
+include '../../config/appbeatproxy.config';
+
+// If apiKey is not set then don't even try doing anything
+if ($apiKey == "NotSet") {
+    http_response_code(500);
+    echo json_encode(["success" => "false","error" => "API Key not set"]);
+    exit;
+}
 
 function fetchFromApi($apiUrl, $apiKey) {
     $options = [
