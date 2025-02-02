@@ -31,22 +31,45 @@ if ($apiKey == "NotSet" || $calendarId == "NotSet") {
 
 require '../../google-api-php-client/vendor/autoload.php';
 
-use Google\Client;
-use Google\Service\Calendar;
+//use Google\Client;
+//use Google\Service\Calendar;
 
 session_start();
-
 $client = new Google_Client();
 $client->setAuthConfig('../../config/googlecalendar.json.config');
-
 $client->setScopes('https://www.googleapis.com/auth/calendar.readonly');
-$client->setApplicationName("Calendar");
-
+$client->setApplicationName("Displayboard");
 $service = new Google_Service_Calendar($client);
 
-$calendar = $service->calendars->get('primary');
+$calendarId = 'primary';
+  $optParams = array(
+    'maxResults' => 10,
+    'orderBy' => 'startTime',
+    'singleEvents' => TRUE,
+    'timeMin' => date('c'),
+  );
 
-echo $calendar->getSummary();
+$results = $service->events->listEvents($calendarId, $optParams);
+
+if (count($results->getItems()) == 0) {
+    print "No upcoming events found.\n";
+  } else {
+    print "Upcoming events:\n";
+    foreach ($results->getItems() as $event) {
+      $start = $event->start->dateTime;
+      if (empty($start)) {
+        $start = $event->start->date;
+      }
+      printf("%s (%s)\n", $event->getSummary(), $start);
+    }
+  }
+
+
+
+
+//$calendar = $service->calendars->get('primary');
+
+//echo $calendar->getSummary();
 
 
 
