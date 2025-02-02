@@ -15,8 +15,15 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
       - name: Port Knock
+        # We have to add the "|| true" else the nc times out (as we want) but 
+        #   returns an error code which stops GitHub Actions from continuining
         run: nc -w 1 ${{ secrets.REMOTE_HOST }} ${{ secrets.PORT_KNOCK_PORT }} || true
       - name: Adding Known Hosts
+        # We tried Using SSHFP instead of doing this but GitHub's resolvers aren't secure 
+        #   which is a requirement. The below is not "secure" however we are using a strong
+        #   SSH Key to an isolated env so am happy that this is OK for what we are doing.
         run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy with rsync
-        run: rsync -rptv --delete --exclude=.git --filter='/cache/*.cache' --filter='/config/*.config' ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:displayboard/
+        # Run with --delete to tidy up old files but add filters so we don't delete cache
+        #   and config files that are already setup on the server
+        run: rsync -rptv --delete --exclude=.git --filter='P /cache/*.cache' --filter='P /config/*.config' ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:displayboard/

@@ -1,0 +1,6 @@
+<?php
+
+$calendarId = 'NotSet';
+$apiKey = "NotSet"; 
+
+?>
