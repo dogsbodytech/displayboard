@@ -41,7 +41,7 @@ $client->setScopes('https://www.googleapis.com/auth/calendar.readonly');
 $client->setApplicationName("Displayboard");
 $service = new Google_Service_Calendar($client);
 
-$calendarId = 'primary';
+//$calendarId = 'primary';
   $optParams = array(
     'maxResults' => 10,
     'orderBy' => 'startTime',
