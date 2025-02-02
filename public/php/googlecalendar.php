@@ -34,6 +34,31 @@ require '../../google-api-php-client/vendor/autoload.php';
 use Google\Client;
 use Google\Service\Calendar;
 
+session_start();
+
+$client = new Google_Client();
+$client->setAuthConfig('../../config/googlecalendar.json.config');
+
+$client->setScopes('https://www.googleapis.com/auth/calendar.readonly');
+$client->setApplicationName("Calendar");
+
+$service = new Google_Service_Calendar($client);
+
+$calendar = $service->calendars->get('primary');
+
+echo $calendar->getSummary();
+
+
+
+
+
+
+
+
+
+/*
+
+
 $calendar = $service->calendars->get('primary');
 
 echo $calendar->getSummary();
@@ -62,6 +87,7 @@ file_put_contents($cacheFile, $response);
 // Output response
 header('Content-Type: application/json');
 echo $response;
+ */
 
 ?>
 
