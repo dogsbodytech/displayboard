@@ -1,5 +1,7 @@
 <?php
 
+/* your API key found at https://my.appbeat.io/manage/account */
+
 $apiKey = "NotSet"; 
 
 ?>
