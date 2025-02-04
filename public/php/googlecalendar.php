@@ -49,10 +49,10 @@ $optParams = array(
   'maxResults' => 40,
   'orderBy' => 'startTime',
   'singleEvents' => TRUE,
-  'timeMin' => date("Y-m-d"),
+  'timeMin' => date("c"),    // I WANT THIS TO BE THE BEGINNING OF TODAY
 );
 
-$results = $service->events->listEvents($calendarId, $optParams);
+$events = $service->events->listEvents($calendarId, $optParams);
 
 $response = []; // Initialize an empty array
 foreach ($events->getItems() as $event) {
@@ -60,9 +60,9 @@ foreach ($events->getItems() as $event) {
   if (empty($start)) {
     $start = $event->start->date;
   }
-  $end = $event->start->dateTime;
+  $end = $event->end->dateTime;   // WE NEED TO SORT OUT TIMEZONES
   if (empty($end)) {
-    $end = $event->start->date;
+    $end = $event->end->date;
   }
   $response[] = [
         "start" => $start,
