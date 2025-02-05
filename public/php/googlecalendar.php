@@ -19,7 +19,7 @@ $calendarId = 'sysadmin@dogsbody.com';
 $apiKeyFile = '../../config/googlecalendar.json.config';
 $cacheFile = '../../cache/googlecalendar.cache';
 $cacheTime = 900;  // 15 minutes
-$timezone = 'Europe/London'
+$timezone = 'Europe/London';
 
 include '../../config/googlecalendar.config'; // shouldn't be needed 
 
@@ -58,28 +58,26 @@ $optParams = array(
 $events = $service->events->listEvents($calendarId, $optParams);
 
 // A fuction for processing the various ways we are passed date and time by Google
-function normalizeEventTime($dateTime, $timeZone, $date) {
+function normalizeEventTime($dateTime, $timeZone, $date, $targetTimeZone) {
   if (!empty($dateTime)) {
     $event = $dateTime;
     $eventTimeZone = $timeZone;
   } else {
     $event = $date;
-    $eventTimeZone = $timezone;
+    $eventTimeZone = $targetTimeZone;
   }
   // Create DateTime object with the provided timezone
   $dateTimeObj = new DateTime($event, new DateTimeZone($eventTimeZone));
   // Convert to Europe/London timezone
-  $dateTimeObj->setTimezone(new DateTimeZone($timezone));
+  $dateTimeObj->setTimezone(new DateTimeZone($targetTimeZone));
   // Return normalized datetime as a single string
-  return $dateTimeObj->format("Y-m-d H:i:s");
+  return $dateTimeObj->format("Y-m-d H:i");
 }
-
 
 $response = []; // Initialize an empty array
 foreach ($events->getItems() as $event) {
-  $start = normalizeEventTime($event->start->dateTime, $event->start->timeZone, $event->start->date);
-  $end = normalizeEventTime($event->end->dateTime, $event->end->timeZone, $event->end->date);
-  }
+  $start = normalizeEventTime($event->start->dateTime, $event->start->timeZone, $event->start->date, $timezone);
+  $end = normalizeEventTime($event->end->dateTime, $event->end->timeZone, $event->end->date, $timezone);
   $response[] = [
     "start" => $start,
     "end" => $end,
