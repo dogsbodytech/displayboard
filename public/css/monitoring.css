@@ -26,10 +26,10 @@
 .row-yellow {
   background-color: #f0ad4e;
 }
-.table-appbeat {
+.section-appbeat {
   flex: 1;
 }
-.table-netdata {
+.section-netdata {
   flex: 1;
 }
 
