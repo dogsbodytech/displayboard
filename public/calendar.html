@@ -4,29 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendar</title>
-  <link href="css/main.css" rel="stylesheet">
+  <link href="css/common.css" rel="stylesheet">
+  <link href="css/calender.css" rel="stylesheet">
   <link href="img/favicon.ico" rel="icon">
-  <style>
-        body {
-            padding: 20px;
-        }
-        .calendar {
-            max-width: 400px;
-        }
-        .date {
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .event {
-            background-color: #e3f2fd;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-        }
-  </style>
 </head>
 <body>
-  <div class="calendar" id="calendar"></div>
+  <div class="header">
+    <h1>Calendar</h1>
+  </div>
+  <div class="calendar" id="calendar">Loading data...</div>
   <script src="js/googlecalendar.js"></script>
 </body>
 </html>
