@@ -33,6 +33,6 @@ jobs:
         #   SSH Key to an isolated env so am happy that this is OK for what we are doing.
         run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy with rsync
-        # Run with --delete to tidy up old files but add filters so we don't delete cache
-        #   and config files that are already setup on the server
-        run: rsync -rptv --delete --exclude=.git --filter='P /cache/*.cache' --filter='P /config/*.config' ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:displayboard/
+        # Run with --delete to tidy up old files but add filters so we don't delete 
+        #   config files that are already setup on the server
+        run: rsync -rptv --delete --exclude=.git --filter='P /config/*.config' ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:displayboard/
