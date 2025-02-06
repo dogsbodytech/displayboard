@@ -1,17 +1,24 @@
 body {
   padding: 20px;
 }
-.calendar {
+/*.calendar {
   max-width: 400px;
-}
+}*/
 .date {
-  font-weight: bold;
+  font-size: 24px;
   margin-top: 20px;
 }
 .event {
-  background-color: #e3f2fd;
+  font-size: 24px;
+  background-color: #d9edf7;
   padding: 10px;
   margin-top: 5px;
   border-radius: 5px;
+}
+.section-sirportly {
+  flex: 1;
+}
+.section-calender {
+  flex: 1;
 }
 
