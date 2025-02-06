@@ -1,7 +1,7 @@
-const CALENDER_URL = "https://displayboard.dogsbody.com/php/googlecalendar.php";
+const CALENDAR_URL = "https://displayboard.dogsbody.com/php/googlecalendar.php";
 
 async function fetchCalendar() {
-  const response = await fetch(CALENDER_URL);
+  const response = await fetch(CALENDAR_URL);
   const data = await response.json();
   displayCalendar(data);
 }
