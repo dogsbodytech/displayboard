@@ -22,7 +22,7 @@ function displayCalendar(events) {
   for (const [date, events] of Object.entries(groupedEvents)) {
     const dateDiv = document.createElement('div');
     dateDiv.className = 'date';
-    dateDiv.textContent = new Date(date).toLocaleDateString(undefined, { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    dateDiv.textContent = new Date(date).toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'long' });
     calendar.appendChild(dateDiv);
     
     events.forEach(event => {
@@ -38,7 +38,6 @@ function displayCalendar(events) {
     });
   }
 }
-
 
 // Initial fetch
 fetchCalendar();

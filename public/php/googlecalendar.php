@@ -51,7 +51,7 @@ $optParams = array(
   'maxResults' => 40,
   'orderBy' => 'startTime',
   'singleEvents' => TRUE,
-  'timeMin' => date("c"),    // I WANT THIS TO BE THE BEGINNING OF TODAY
+  'timeMin' => date("c", strtotime("today")),  // Sets to midnight of today
 );
 
 // Get our list of events
