@@ -9,10 +9,13 @@ body {
   margin-top: 20px;
 }
 .event {
+  padding-top: 9px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-size: 24px;
   background-color: #d9edf7;
-  padding: 10px;
-  margin-top: 5px;
+  margin-top: 1px;
   border-radius: 5px;
 }
 .section-sirportly {
