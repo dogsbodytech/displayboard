@@ -1,3 +1,7 @@
+/*
+ * Description: Display the JSON provided by the proxy in the way that we want.
+ */
+
 const NETDATA_URL = "https://minder.dogsbody.com/api/v2/nodes";
 
 function fetchAndRenderNetdataData() {

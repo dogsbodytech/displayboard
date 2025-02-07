@@ -1,4 +1,8 @@
-const APPBEAT_URL = "https://displayboard.dogsbody.com/php/appbeatproxy.php";
+/*
+ * Description: Display the JSON provided by the proxy in the way that we want.
+ */
+
+const APPBEAT_URL = "/php/appbeatproxy.php";
 
 const statusMapping = {
   "Good": "green",

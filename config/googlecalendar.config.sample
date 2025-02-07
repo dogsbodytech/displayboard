@@ -1,6 +1,9 @@
 <?php
 
-$calendarId = 'NotSet';
-$apiKey = "NotSet"; 
+$calendarId = 'sysadmin@dogsbody.com';
+$apiKeyFile = '../../config/googlecalendar.json.config';
+$cacheFile = '../../cache/googlecalendar.cache';
+$cacheTime = 900;  // 15 minutes
+$timezone = 'Europe/London';
 
 ?>

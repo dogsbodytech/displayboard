@@ -1,4 +1,8 @@
-const CALENDAR_URL = "https://displayboard.dogsbody.com/php/googlecalendar.php";
+/*
+ * Description: Display the JSON provided by the proxy in the way that we want.
+ */
+
+const CALENDAR_URL = "/php/googlecalendar.php";
 
 async function fetchCalendar() {
   const response = await fetch(CALENDAR_URL);
