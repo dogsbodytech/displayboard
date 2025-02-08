@@ -16,14 +16,19 @@ const statusMapping = {
 
 function fetchAndRenderAppBeatData() {
   fetch(APPBEAT_URL)
-    //.then(response => response.json())
     .then((response) => {
     const dataSource = response.headers.get('X-Data-Source');
-    return response.json();
+    return response.json().then((data) => ({ data, dataSource }));
     })
-    .then(data => {
-      const monitors = [];
+    .then(({ data, dataSource }) => {
+      // Select the specific <h1> inside .section-appbeat
+      const header = document.querySelector('.section-appbeat .header h1');
+      // Ensure the header exists before modifying it
+      if (header && dataSource && dataSource !== "Live") {
+        header.textContent += ` (Using ${dataSource})`;
+      }
 
+      const monitors = [];
       data.Services.forEach(service => {
         const serviceIsPaused = service.IsPaused === true;
         service.Checks.forEach(check => {
