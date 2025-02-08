@@ -22,7 +22,7 @@
 $apiUrl = "https://www.appbeat.io/API/v1/status";
 $apiKey = "NotSet";
 $cacheFile = '../../cache/appbeatproxy.cache';
-$cacheDuration = 28;  // two seconds less than the webpage 
+$cacheDuration = 30;  // maximum we are allowed
 
 include '../../config/appbeatproxy.config';
 

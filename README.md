@@ -1,4 +1,3 @@
-# displayboard
 A very simple displayboard for the display of AppBeat, Netdata, Sirportly and Google Calendar in the Dogsbody Technology Office
 
 Requires PHP Hosting. Everything else is static files.
@@ -6,8 +5,7 @@ Requires PHP Hosting. Everything else is static files.
 Uses Github Actions to deploy to a server via SSH. This also pulls in any dependancies.
 
 ## Configuration
-
-This is very much configured for use by Dogsbody Technology with our endpoints hard coded in various files. All of these settings can be overwritten using the settings below if needed. There should be no need to fork the code.
+This is very much configured for use by Dogsbody Technology with our endpoints hard coded in various files. Most of these settings can be overwritten using the settings below if needed. The aim is for there to be no need to fork the code.
 
 ### AppBeat
 * Just copy `config/appbeatproxy.config.sample` to `config/appbeatproxy.config` and edit the `$apiKey` variable to your API key found at https://my.appbeat.io/manage/account
@@ -55,14 +53,11 @@ If you are adapting this code you will want to change the calendar ID.
 
 ## To Do
 
-### Google Calendar
-* Make it work with two calendars
-
 ### Sirportly
-* Write it :-p 
+* Write it :-p
 
-### AppBeat
-* Use the X-Data-Source header to show when the data is cached
+### Add support for an ICS feed
+* could be messy but we can't get the vacation feed from Google calendar so will have to parse it ourselves.
 
 ### Netdata
 * We'd love to allow users to easily overide the URL in `public/js/netdata.js` but can't think of an easy way to allow this to be done without additional API calls. Perhaps a single API call from `public/js/netdata.js` to a php script (seeing as we are using it elsewhere) just to return the URL (and perhaps a key).

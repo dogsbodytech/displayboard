@@ -24,8 +24,13 @@ function fetchAndRenderAppBeatData() {
       // Select the specific <h1> inside .section-appbeat
       const header = document.querySelector('.section-appbeat .header h1');
       // Ensure the header exists before modifying it
-      if (header && dataSource && dataSource !== "Live") {
-        header.textContent += ` (Using ${dataSource})`;
+      if (header) {
+        // Reset the header text to its original state
+        header.textContent = "Port Monitoring";
+        // If dataSource is not "Live", append the source info
+        if (dataSource && dataSource !== "Live") {
+          header.textContent += ` (${dataSource})`;
+        }
       }
 
       const monitors = [];
@@ -75,8 +80,8 @@ function renderAppBeatTable(monitors) {
   });
 }
 
-// Refresh data every 30 seconds
-setInterval(fetchAndRenderAppBeatData, 30000);
+// Refresh data every 31 seconds, one second more than the php script
+setInterval(fetchAndRenderAppBeatData, 31000);
 
 // Initial fetch
 fetchAndRenderAppBeatData();
