@@ -12,7 +12,7 @@ function fetchAndRenderNetdataData() {
     })
     .then(({ data, dataSource }) => {
       // Select the specific <h1> inside .section-netdata
-      const header = document.querySelector('.section-netadata .header h1');
+      const header = document.querySelector('.section-netdata .header h1');
       // Ensure the header exists before modifying it
       if (header) {
         // Reset the header text to its original state
