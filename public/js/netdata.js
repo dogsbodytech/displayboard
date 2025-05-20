@@ -2,12 +2,27 @@
  * Description: Display the JSON provided by the proxy in the way that we want.
  */
 
-const NETDATA_URL = "https://minder.dogsbody.com/api/v2/nodes";
+const NETDATA_URL = "/php/netdataproxy.php";
 
 function fetchAndRenderNetdataData() {
   fetch(NETDATA_URL)
-    .then(response => response.json())
-    .then(nodesData => {
+    .then((response) => {
+    const dataSource = response.headers.get('X-Data-Source');
+    return response.json().then((data) => ({ data, dataSource }));
+    })
+    .then(({ data, dataSource }) => {
+      // Select the specific <h1> inside .section-netdata
+      const header = document.querySelector('.section-netadata .header h1');
+      // Ensure the header exists before modifying it
+      if (header) {
+        // Reset the header text to its original state
+        header.textContent = "Resource Monitoring";
+        // If dataSource is not "Live", append the source info
+        if (dataSource && dataSource !== "Live") {
+          header.textContent += ` (${dataSource})`;
+        }
+      }
+
       const nodes = nodesData.nodes
         .filter(node => node.state !== "stale")
         .map(node => {
