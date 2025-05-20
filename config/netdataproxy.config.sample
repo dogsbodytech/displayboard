@@ -1,0 +1,6 @@
+<?php
+
+$apiUrl = "https://netdata.example.com/api/v2/nodes";
+$apiKey = "NotSet";
+
+?>

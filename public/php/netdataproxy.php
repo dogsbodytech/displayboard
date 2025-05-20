@@ -21,12 +21,12 @@
  *
  */
 
-$apiUrl = "https://netdata.example.com.com/api/v2/nodes";
+$apiUrl = "https://netdata.example.com/api/v2/nodes";
 $apiKey = "NotSet";
-$cacheFile = '../../cache/appbeatproxy.cache';
-$cacheDuration = 30;  // maximum we are allowed
+$cacheFile = '../../cache/netdataproxy.cache';
+$cacheDuration = 14;
 
-include '../../config/appbeatproxy.config';
+include '../../config/netdataproxy.config';
 
 // If apiKey is not set then don't even try doing anything
 if ($apiKey == "NotSet") {
@@ -74,7 +74,7 @@ if ($response === FALSE) {
 
     // If no cache exists, return an error
     http_response_code(500);
-    echo json_encode(["error" => "Failed to fetch data from AppBeat API"]);
+    echo json_encode(["error" => "Failed to fetch data from Remote API"]);
     exit;
 }
 

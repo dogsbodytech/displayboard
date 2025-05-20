@@ -72,7 +72,7 @@ if ($response === FALSE) {
 
     // If no cache exists, return an error
     http_response_code(500);
-    echo json_encode(["error" => "Failed to fetch data from AppBeat API"]);
+    echo json_encode(["error" => "Failed to fetch data from Remote API"]);
     exit;
 }
 
