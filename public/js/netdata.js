@@ -23,7 +23,7 @@ function fetchAndRenderNetdataData() {
         }
       }
 
-      const nodes = nodesData.nodes
+      const nodes = data.nodes
         .filter(node => node.state !== "stale")
         .map(node => {
           const hostname = node.labels._hostname || "Unknown";
