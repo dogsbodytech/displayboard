@@ -1,6 +1,9 @@
 A very simple displayboard for the display of AppBeat, Netdata, Sirportly and Google Calendar in the Dogsbody Technology Office
 
+## Setup 
 Requires PHP Hosting. Everything else is static files.
+
+See `nginx.example` for an example Nginx configuration. The entire repo should be on the webserver but only /public should be accessable via the browser and only /public/php should be accessable by PHP.
 
 Uses Github Actions to deploy to a server via SSH. This also pulls in any dependancies.
 

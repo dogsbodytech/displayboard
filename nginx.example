@@ -1,0 +1,57 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name displayboard.example.com;
+  access_log  /var/log/nginx/displayboard.example.com.access.log;
+  error_log  /var/log/nginx/displayboard.example.com.error.log;
+  location / { return 301 https://displayboard.example.com$request_uri; }
+  location ~ /.well-known/acme-challenge { root /usr/share/nginx/html; }
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  http2 on;
+  server_name displayboard.example.com;
+  access_log  /var/log/nginx/displayboard.example.com.access.log;
+  error_log  /var/log/nginx/displayboard.example.com.error.log;
+  ssl_certificate /etc/letsencrypt/live/displayboard.example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/displayboard.example.com/privkey.pem;
+  ssl_trusted_certificate /etc/letsencrypt/live/displayboard.example.com/chain.pem;
+  ssl_protocols TLSv1.3;
+  ssl_ecdh_curve X25519:prime256v1:secp384r1;
+  ssl_prefer_server_ciphers off;
+  add_header Strict-Transport-Security "max-age=31536000" always;
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header X-Frame-Options "SAMEORIGIN" always;
+  add_header Referrer-Policy same-origin always;
+  add_header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, notranslate, noimageindex" always;
+  allow 192.168.1.0/24;
+  deny all;
+
+  root /home/displayboard/displayboard/public;
+  location ~ /\.  {
+    # Block access to hidden files (not that there should be any)
+    return 403; 
+  }
+  location ~* ^/php/[^/]+\.php$ {
+    fastcgi_pass unix:/run/php/php-fpm-displayboard.sock;
+    include includes/php_fpm.conf;
+  }
+  location ~ \.php$ {
+    # Block access to all other php scripts
+    return 404;
+  }
+  location / {
+    try_files $uri $uri/ =404;
+  }
+  location ~* \.(css|html|ico|js)$ {
+    allow all;
+    expires max;
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Cache-Control public;
+  }
+}
+
