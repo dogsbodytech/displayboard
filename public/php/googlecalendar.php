@@ -57,7 +57,7 @@ $optParams = array(
 // Get our list of events
 $events = $service->events->listEvents($calendarId, $optParams);
 
-// A fuction for processing the various ways we are passed date and time by Google
+// A function for processing the various ways we are passed date and time by Google
 function normalizeEventTime($dateTime, $timeZone, $date, $targetTimeZone) {
   if (!empty($dateTime)) {
     $event = $dateTime;
