@@ -5,7 +5,7 @@ Requires PHP Hosting. Everything else is static files.
 
 See `nginx.example` for an example Nginx configuration. The entire repo should be on the webserver but only /public should be accessable via the browser and only /public/php should be accessable by PHP.
 
-Uses Github Actions to deploy to a server via SSH. This also pulls in any dependancies.
+Uses Github Actions to deploy to a server via SSH. This also pulls in any dependencies.
 
 ## Configuration
 This is very much configured for use by Dogsbody Technology with our endpoints hard coded in various files. Most of these settings can be overwritten using the settings below if needed. The aim is for there to be no need to fork the code.
