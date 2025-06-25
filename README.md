@@ -62,6 +62,3 @@ If you are adapting this code you will want to change the calendar ID.
 ### Add support for an ICS feed
 * could be messy but we can't get the vacation feed from Google calendar so will have to parse it ourselves.
 
-### Netdata
-* We'd love to allow users to easily overide the URL in `public/js/netdata.js` but can't think of an easy way to allow this to be done without additional API calls. Perhaps a single API call from `public/js/netdata.js` to a php script (seeing as we are using it elsewhere) just to return the URL (and perhaps a key).
-

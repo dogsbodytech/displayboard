@@ -1,5 +1,18 @@
 <?php
-// Common functions for proxy scripts
+/*
+ * Description: Common functions for proxy scripts
+ *
+ * Usage: Typically called by calling `proxyRequest($apiUrl,$apiKey,$cacheFile,$cacheDuration)`
+ *
+ *        Adds a "X-Data-Source" header to show the status of the cache.
+ *           Live         - Data was grabbed and is being returned live
+ *           Cached       - Data was returned from the cache file
+ *           Stale Cache  - Data returned from cache file and stale
+ *
+ * Notes: Currently only supports bearer token authentication
+ *
+ */
+
 
 // Return 403 Forbidden if this file is accessed directly via HTTP
 if (php_sapi_name() !== 'cli' && basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
@@ -76,7 +89,7 @@ function proxyRequest(string $apiUrl, string $apiKey, string $cacheFile, int $ca
         $stale = file_exists($cacheFile) ? json_decode(file_get_contents($cacheFile), true)['data'] ?? false : false;
         if ($stale !== false) {
             header('Content-Type: application/json');
-            header('X-Data-Source: Cached (Fallback)');
+            header('X-Data-Source: Stale Cache');
             echo $stale;
             return;
         }

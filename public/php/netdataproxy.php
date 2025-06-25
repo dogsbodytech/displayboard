@@ -35,4 +35,5 @@ if ($apiKey == "NotSet") {
 }
 
 proxyRequest($apiUrl, $apiKey, $cacheFile, $cacheDuration);
+
 ?>
