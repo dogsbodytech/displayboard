@@ -1,10 +1,8 @@
 <?php
 
 /*
- * HTTP headers used to authenticate with your Netdata instance
- * Example:
- *     ['Authorization: Bearer YOUR_TOKEN']
- * or  ['X-Auth-Token: TOKEN', 'X-Auth-Secret: SECRET']
+ * Replace "netdata.example.com" with your netdata parent endpoint
+ * Replace "NotSet" with your API Key
  */
 
 $apiUrl = "https://netdata.example.com/api/v2/nodes";

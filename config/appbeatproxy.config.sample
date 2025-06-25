@@ -1,10 +1,8 @@
 <?php
 
 /*
- * HTTP headers used for AppBeat authentication
- * Example:
- *     ['Authorization: Bearer YOUR_TOKEN']
- * or  ['X-Auth-Token: YOUR_TOKEN', 'X-Auth-Secret: YOUR_SECRET']
+ * Replace "NotSet" with your API Key
+ * Your API key found at https://my.appbeat.io/manage/account
  */
 
 $apiHeaders = ['Authorization: Bearer NotSet'];

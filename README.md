@@ -11,13 +11,19 @@ Uses Github Actions to deploy to a server via SSH. This also pulls in any depend
 This is very much configured for use by Dogsbody Technology with our endpoints hard coded in various files. Most of these settings can be overwritten using the settings below if needed. The aim is for there to be no need to fork the code.
 
 ### AppBeat
-* Just copy `config/appbeatproxy.config.sample` to `config/appbeatproxy.config` and edit the `$apiHeaders` array with the HTTP headers needed for authentication. Examples:
-  * `['Authorization: Bearer YOUR_TOKEN']`
-  * `['X-Auth-Token: YOUR_TOKEN', 'X-Auth-Secret: YOUR_SECRET']`
-* Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file
+* Copy `config/appbeatproxy.config.sample` to `config/appbeatproxy.config`.
+* Edit `config/appbeatproxy.config` and update the `$apiHeaders` array with the HTTP headers needed for authentication.
+* Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file.
 
 ### Netdata
-* Just allow Your Netdata instance/parent access from the IP addresses that will use this displayboard
+* Copy `config/netdataproxy.config.sample` to `config/netdataproxy.config`.
+* Edit `config/netdataproxy.config` and update the `$apiUrl` variable & `$apiHeaders` array with the URI and headers needed for authentication.
+* Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file.
+
+### Sirportly
+* Copy `config/sirportlyproxy.config.sample` to `config/sirportlyproxy.config`.
+* Edit `config/sirportlyproxy.config` and update the `$apiHeaders` array with the HTTP headers needed for authentication.
+* Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file.
 
 ### Google Calendar
 * Go to https://console.cloud.google.com/ , log in if necessary and/or check you are the right user.
