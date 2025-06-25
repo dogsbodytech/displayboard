@@ -1,9 +1,8 @@
 <?php
-
 /*
  * Description: A simple proxy script for the AppBeat API.
  *     This script is due to the missing CORS headers from the AppBeat API
- *       which means the API can't be read directly by a webpage. 
+ *       which means the API can't be read directly by a webpage.
  *     The script has a few additional advantages
  *       - We are caching the last results so we don't get rate limited
  *       - We can hide our API key in this script instead of the website
@@ -15,7 +14,7 @@
  *     $cacheFile     = Path to the cache file
  *     $cacheDuration = How many seconds to cache the response
  *
- * Notes:  
+ * Notes:
  *
  */
 
@@ -25,68 +24,13 @@ $cacheFile = '../../cache/appbeatproxy.cache';
 $cacheDuration = 30;  // maximum we are allowed
 
 include '../../config/appbeatproxy.config';
+require_once 'common.php';
 
-// If apiKey is not set then don't even try doing anything
 if ($apiKey == "NotSet") {
     http_response_code(500);
     echo json_encode(["success" => "false","error" => "API Key not set"]);
     exit;
 }
 
-function fetchFromApi($apiUrl, $apiKey) {
-    $options = [
-        "http" => [
-            "header" => "Authorization: Bearer " . $apiKey,
-            "method" => "GET",
-        ],
-    ];
-    $context = stream_context_create($options);
-    return file_get_contents($apiUrl, false, $context);
-}
-
-// Check if cache file exists and is still valid
-if (file_exists($cacheFile)) {
-    $cacheData = json_decode(file_get_contents($cacheFile), true);
-    $cacheAge = time() - $cacheData['timestamp'];
-
-    // If cache is still valid, return cached content
-    if ($cacheAge <= $cacheDuration) {
-	header("Content-Type: application/json");
-        header("X-Data-Source: Cached");  
-        echo $cacheData['data'];
-        exit;
-    }
-}
-
-// Fetch new data from the API
-$response = fetchFromApi($apiUrl, $apiKey);
-
-if ($response === FALSE) {
-    // If API request fails and cache exists, return the cached content
-    if (isset($cacheData)) {
-	header("Content-Type: application/json");
-        header("X-Data-Source: Cached (Fallback)");
-        echo $cacheData['data'];
-        exit;
-    }
-
-    // If no cache exists, return an error
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to fetch data from Remote API"]);
-    exit;
-}
-
-// Cache the response
-$cacheData = [
-    'timestamp' => time(),
-    'data' => $response,
-];
-file_put_contents($cacheFile, json_encode($cacheData));
-
-// Return the response
-header("Content-Type: application/json");
-header("X-Data-Source: Live");
-echo $response;
+proxyRequest($apiUrl, $apiKey, $cacheFile, $cacheDuration);
 ?>
-
-
