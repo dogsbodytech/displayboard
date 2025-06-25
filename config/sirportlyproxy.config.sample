@@ -1,0 +1,12 @@
+<?php
+
+/*
+ * Replace "sirportly.example.com" with your sirportly instance
+ * Replace "YOUR_TOKEN" with your API Token
+ * Replace "YOUR_SECRET" with your API Secret
+ */
+
+$apiUrl = "https://sirportly.example.com/";
+$apiHeaders =  ['X-Auth-Token: YOUR_TOKEN', 'X-Auth-Secret: YOUR_SECRET'];
+
+?>
