@@ -11,7 +11,9 @@ Uses Github Actions to deploy to a server via SSH. This also pulls in any depend
 This is very much configured for use by Dogsbody Technology with our endpoints hard coded in various files. Most of these settings can be overwritten using the settings below if needed. The aim is for there to be no need to fork the code.
 
 ### AppBeat
-* Just copy `config/appbeatproxy.config.sample` to `config/appbeatproxy.config` and edit the `$apiKey` variable to your API key found at https://my.appbeat.io/manage/account
+* Just copy `config/appbeatproxy.config.sample` to `config/appbeatproxy.config` and edit the `$apiHeaders` array with the HTTP headers needed for authentication. Examples:
+  * `['Authorization: Bearer YOUR_TOKEN']`
+  * `['X-Auth-Token: YOUR_TOKEN', 'X-Auth-Secret: YOUR_SECRET']`
 * Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file
 
 ### Netdata

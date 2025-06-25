@@ -5,12 +5,12 @@
  *       which means the API can't be read directly by a webpage.
  *     The script has a few additional advantages
  *       - We are caching the last results so we don't get rate limited
- *       - We can hide our API key in this script instead of the website
+ *       - We can hide our authentication headers in this script instead of the website
  *       - We add a header to show when the data is old
  *
  * Configuration:  The following variables can be set
  *     $apiUrl        = The API URL we are calling
- *     $apiKey        = The API Key
+ *     $apiHeaders    = An array of HTTP headers used for authentication
  *     $cacheFile     = Path to the cache file
  *     $cacheDuration = How many seconds to cache the response
  *
@@ -19,19 +19,19 @@
  */
 
 $apiUrl = "https://www.appbeat.io/API/v1/status";
-$apiKey = "NotSet";
+$apiHeaders = [];
 $cacheFile = '../../cache/appbeatproxy.cache';
 $cacheDuration = 30;  // maximum we are allowed
 
 include '../../config/appbeatproxy.config';
 require_once 'common.php';
 
-if ($apiKey == "NotSet") {
+if (empty($apiHeaders)) {
     http_response_code(500);
-    echo json_encode(["success" => "false","error" => "API Key not set"]);
+    echo json_encode(["success" => "false","error" => "API headers not set"]);
     exit;
 }
 
-proxyRequest($apiUrl, $apiKey, $cacheFile, $cacheDuration);
+proxyRequest($apiUrl, $apiHeaders, $cacheFile, $cacheDuration);
 
 ?>

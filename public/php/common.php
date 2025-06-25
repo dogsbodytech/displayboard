@@ -2,14 +2,14 @@
 /*
  * Description: Common functions for proxy scripts
  *
- * Usage: Typically called by calling `proxyRequest($apiUrl,$apiKey,$cacheFile,$cacheDuration)`
+ * Usage: Typically called by calling `proxyRequest($apiUrl,$headers,$cacheFile,$cacheDuration)`
  *
  *        Adds a "X-Data-Source" header to show the status of the cache.
  *           Live         - Data was grabbed and is being returned live
  *           Cached       - Data was returned from the cache file
  *           Stale Cache  - Data returned from cache file and stale
  *
- * Notes: Currently only supports bearer token authentication
+ * Notes: Authentication headers are passed in by the calling script
  *
  */
 
@@ -22,12 +22,18 @@ if (php_sapi_name() !== 'cli' && basename($_SERVER['PHP_SELF']) === basename(__F
 }
 
 /**
- * Fetch data from an API endpoint using a Bearer token.
+ * Fetch data from an API endpoint using custom headers provided by the caller.
  */
-function fetchFromApi(string $apiUrl, string $apiKey) {
+function fetchFromApi(string $apiUrl, $headers) {
+    if (is_array($headers)) {
+        $header = implode("\r\n", $headers);
+    } else {
+        $header = (string)$headers;
+    }
+
     $options = [
         'http' => [
-            'header' => 'Authorization: Bearer ' . $apiKey,
+            'header' => $header,
             'method' => 'GET',
         ],
     ];
@@ -72,7 +78,7 @@ function writeCache(string $cacheFile, string $response): void {
 /**
  * Proxy a request to a remote API with caching and fallback logic.
  */
-function proxyRequest(string $apiUrl, string $apiKey, string $cacheFile, int $cacheDuration): void {
+function proxyRequest(string $apiUrl, $headers, string $cacheFile, int $cacheDuration): void {
     // return cached data if possible
     $cached = getCachedData($cacheFile, $cacheDuration);
     if ($cached !== false) {
@@ -82,7 +88,7 @@ function proxyRequest(string $apiUrl, string $apiKey, string $cacheFile, int $ca
         return;
     }
 
-    $response = fetchFromApi($apiUrl, $apiKey);
+    $response = fetchFromApi($apiUrl, $headers);
 
     if ($response === false) {
         // if api call failed try serving stale cache
