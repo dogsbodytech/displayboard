@@ -38,6 +38,29 @@ body {
   font-size: 24px;
   border-bottom: 1px solid #fff;
 }
+.section-sirportly .table {
+  margin-top: 20px;
+}
+
+.section-sirportly .table th:nth-child(1),
+.section-sirportly .table td:nth-child(1) {
+  width: 33%;
+}
+.section-sirportly .table th:nth-child(2),
+.section-sirportly .table td:nth-child(2) {
+  width: 67%;
+}
+
+.label-cell {
+  display: flex;
+  justify-content: space-between;
+}
+.label-cell .text {
+  text-align: left;
+}
+.label-cell .number {
+  text-align: right;
+}
 .table th {
   background-color: #fff;
 }
@@ -46,6 +69,8 @@ body {
   height: 24px;
   background-color: #eee;
   display: flex;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .bar-segment {
   height: 100%;
