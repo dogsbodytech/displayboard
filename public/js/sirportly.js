@@ -48,18 +48,22 @@ function fetchAndRenderSirportlyData() {
       return `<div class="bar-container">${segments.join('')}</div>`;
     }
 
+    function labelCell(label, count) {
+      return `<td class="label-cell"><span class="text">${label}</span><span class="number">${count}</span></td>`;
+    }
+
     const rows = [];
-    rows.push({ html: `<td>New ${counts.new}</td><td>${barHTML([segment(counts.new, 'bar-yellow')])}</td>`, status: '' });
-    rows.push({ html: `<td>Daily ${counts.daily}</td><td>${barHTML([segment(counts.daily, 'bar-yellow')])}</td>`, status: '' });
-    rows.push({ html: `<td>Waiting ${counts.waiting}</td><td>${barHTML([segment(counts.waiting, 'bar-yellow')])}</td>`, status: '' });
+    rows.push({ html: `${labelCell('New', counts.new)}<td>${barHTML([segment(counts.new, 'bar-yellow')])}</td>`, status: '' });
+    rows.push({ html: `${labelCell('Daily', counts.daily)}<td>${barHTML([segment(counts.daily, 'bar-yellow')])}</td>`, status: '' });
+    rows.push({ html: `${labelCell('Waiting', counts.waiting)}<td>${barHTML([segment(counts.waiting, 'bar-yellow')])}</td>`, status: '' });
 
     users.forEach(user => {
       const segs = [
-        segment(user.blue, 'bar-blue'),
         segment(user.red, 'bar-red'),
+        segment(user.blue, 'bar-blue'),
         segment(user.green, 'bar-green'),
       ];
-      rows.push({ html: `<td>${user.name} ${user.total}</td><td>${barHTML(segs)}</td>`, status: '' });
+      rows.push({ html: `${labelCell(user.name, user.total)}<td>${barHTML(segs)}</td>`, status: '' });
     });
 
     clearAndRenderTable('sirportlyTable', rows);
