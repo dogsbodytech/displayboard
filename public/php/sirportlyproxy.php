@@ -32,7 +32,7 @@ if (empty($apiHeaders)) {
 }
 
 $spql = 'SELECT COUNT,users.first_name,users.last_name,status.name,status.status_type FROM tickets WHERE statuses.status_type != 1 GROUP BY users.first_name,users.last_name,status.name';
-$query = urlencode($spql)
+$query = urlencode($spql);
 
 proxyRequest("$apiUrl/api/v2/tickets/spql?spql=$query", $apiHeaders, $cacheFile, $cacheDuration);
 
