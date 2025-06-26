@@ -18,7 +18,7 @@
  */
 
 $apiUrl = "https://sirportly.example.com/";
-$apiHeaders = [];
+$apiHeaders = ['X-Auth-Token: YOUR_TOKEN', 'X-Auth-Secret: YOUR_SECRET'];
 $cacheFile = '../../cache/sirportlyproxy.cache';
 $cacheDuration = 14;
 
@@ -31,8 +31,9 @@ if (empty($apiHeaders)) {
     exit;
 }
 
-$SQL = 'SELECT%20COUNT%2Cusers.first_name%2Cusers.last_name%2Cstatus.name%2Cstatus.status_type%20FROM%20tickets%20WHERE%20statuses.status_type%20!%3D%201%20GROUP%20BY%20users.first_name%2Cusers.last_name%2Cstatus.name';
+$spql = 'SELECT COUNT,users.first_name,users.last_name,status.name,status.status_type FROM tickets WHERE statuses.status_type != 1 GROUP BY users.first_name,users.last_name,status.name';
+$query = urlencode($spql)
 
-proxyRequest("$apiUrl/api/v2/tickets/spql?spql=$SQL", $apiHeaders, $cacheFile, $cacheDuration);
+proxyRequest("$apiUrl/api/v2/tickets/spql?spql=$query", $apiHeaders, $cacheFile, $cacheDuration);
 
 ?>
