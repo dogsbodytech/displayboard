@@ -25,6 +25,11 @@ This is very much configured for use by Dogsbody Technology with our endpoints h
 * Edit `config/sirportlyproxy.config` and update the `$apiHeaders` array with the HTTP headers needed for authentication.
 * Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file.
 
+### ICS Feed
+* Copy `config/icsproxy.config.sample` to `config/icsproxy.config`.
+* Edit `config/icsproxy.config` and update `$icsUrl` with the ICS Feed URL
+* Optionally the `$cacheFile` and `$cacheDuration` can be overwritten in this file.
+
 ### Google Calendar
 * Go to https://console.cloud.google.com/ , log in if necessary and/or check you are the right user.
 * Click on the 3-dot logo / pull down menu at the top to open the "Select a project" box. Click on "Add new project" or select one if you already have one you are going to use.
@@ -60,13 +65,4 @@ If you are adapting this code you will want to change the calendar ID.
 * Other settings like file locations, cache time and Timezone can be set here too
 
 (Thank you to Naich for [their page on setting this up properly](https://naich.net/wordpress/index.php/using-the-google-calendar-api-from-your-web-site-with-php/).)
-
-
-## To Do
-
-### Sirportly
-* Write it :-p
-
-### Add support for an ICS feed
-* could be messy but we can't get the vacation feed from Google calendar so will have to parse it ourselves.
 

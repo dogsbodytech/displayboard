@@ -1,0 +1,9 @@
+<?php
+
+/*
+ * Replace with the full path to your calendar endpoint
+ */
+
+$icsUrl = "https://ics.example.com/calendar.ics";
+
+?>
