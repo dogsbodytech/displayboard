@@ -35,7 +35,12 @@ function parseICS(icsText) {
       }
     }
   });
-  return events.sort((a, b) => new Date(a.start) - new Date(b.start));
+  const sorted = events.sort((a, b) => new Date(a.start) - new Date(b.start));
+
+  // Filter out events before today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return sorted.filter(e => new Date(e.start) >= today);
 }
 
 function parseIcsDate(value) {
