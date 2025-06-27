@@ -27,35 +27,58 @@ function parseICS(icsText) {
       event = null;
     } else if (event) {
       if (line.startsWith("DTSTART")) {
-        event.start = parseIcsDate(line.split(":" ).pop());
+        const parsed = parseIcsDate(line.split(":" ).pop());
+        event.start = parsed.date;
+        event.allDay = !parsed.hasTime;
       } else if (line.startsWith("DTEND")) {
-        event.end = parseIcsDate(line.split(":" ).pop());
+        const parsed = parseIcsDate(line.split(":" ).pop());
+        event.end = parsed.date;
       } else if (line.startsWith("SUMMARY")) {
         event.summary = line.substring(line.indexOf(":") + 1).trim();
       }
     }
   });
-  const sorted = events.sort((a, b) => new Date(a.start) - new Date(b.start));
+  const sorted = events.sort((a, b) => a.start - b.start);
 
-  // Filter out events before today
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return sorted.filter(e => new Date(e.start) >= today);
+  // Filter out events that have already ended
+  const now = new Date();
+  return sorted.filter(e => e.end >= now);
 }
 
 function parseIcsDate(value) {
   value = value.trim();
-  if (value.length === 8) {
-    return `${value.slice(0,4)}-${value.slice(4,6)}-${value.slice(6,8)} 00:00`;
-  } else if (value.length >= 15) {
-    const year = value.slice(0,4);
-    const month = value.slice(4,6);
-    const day = value.slice(6,8);
-    const hour = value.slice(9,11);
-    const minute = value.slice(11,13);
-    return `${year}-${month}-${day} ${hour}:${minute}`;
+  let utc = false;
+  if (value.endsWith('Z')) {
+    utc = true;
+    value = value.slice(0, -1);
   }
-  return value;
+
+  if (value.length === 8) {
+    const year = parseInt(value.slice(0, 4), 10);
+    const month = parseInt(value.slice(4, 6), 10) - 1;
+    const day = parseInt(value.slice(6, 8), 10);
+    const date = utc
+      ? new Date(Date.UTC(year, month, day))
+      : new Date(year, month, day);
+    return { date, hasTime: false };
+  } else if (value.length >= 15) {
+    const year = parseInt(value.slice(0, 4), 10);
+    const month = parseInt(value.slice(4, 6), 10) - 1;
+    const day = parseInt(value.slice(6, 8), 10);
+    const hour = parseInt(value.slice(9, 11), 10);
+    const minute = parseInt(value.slice(11, 13), 10);
+    let second = 0;
+    if (value.length >= 15) {
+      const sec = value.slice(13, 15);
+      if (!isNaN(parseInt(sec, 10))) second = parseInt(sec, 10);
+    }
+    const date = utc
+      ? new Date(Date.UTC(year, month, day, hour, minute, second))
+      : new Date(year, month, day, hour, minute, second);
+    return { date, hasTime: true };
+  }
+
+  return { date: new Date(value), hasTime: true };
 }
 
 function displayIcsCalendar(events) {
@@ -64,7 +87,7 @@ function displayIcsCalendar(events) {
   const groupedEvents = {};
 
   events.forEach(event => {
-    const date = new Date(event.start).toDateString();
+    const date = event.start.toDateString();
     if (!groupedEvents[date]) {
       groupedEvents[date] = [];
     }
@@ -80,11 +103,31 @@ function displayIcsCalendar(events) {
     dayEvents.forEach(event => {
       const eventDiv = document.createElement('div');
       eventDiv.className = 'event';
-      const startTime = new Date(event.start).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-      const endTime = new Date(event.end).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-      eventDiv.textContent = event.start.includes('00:00') && event.end.includes('00:00')
-        ? event.summary
-        : `${startTime} - ${endTime}: ${event.summary}`;
+
+      let text;
+      if (event.allDay) {
+        // All day events may span multiple days. DTEND for all day events is
+        // exclusive, so subtract one day when comparing.
+        const endDate = new Date(event.end.getTime());
+        endDate.setDate(endDate.getDate() - 1);
+        if (event.start.toDateString() === endDate.toDateString()) {
+          text = event.summary;
+        } else {
+          const endDateStr = endDate.toLocaleDateString(undefined, { day: '2-digit', month: 'long' });
+          text = `${event.summary} (until ${endDateStr})`;
+        }
+      } else {
+        const startTime = event.start.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+        const endTime = event.end.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+        if (event.start.toDateString() === event.end.toDateString()) {
+          text = `${startTime} - ${endTime}: ${event.summary}`;
+        } else {
+          const endDateStr = event.end.toLocaleDateString(undefined, { day: '2-digit', month: 'long' });
+          text = `${startTime} - ${endTime} ${endDateStr}: ${event.summary}`;
+        }
+      }
+
+      eventDiv.textContent = text;
       calendar.appendChild(eventDiv);
     });
   }
