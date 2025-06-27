@@ -49,7 +49,7 @@ function fetchAndRenderSirportlyData() {
     }
 
     function labelCell(label, count) {
-      return `<td class="label-cell"><span class="text">${label}</span><span class="number">${count}</span></td>`;
+      return `<td class="label-text">${label}</td><td class="label-number">${count}</td>`;
     }
 
     const rows = [];
@@ -70,6 +70,6 @@ function fetchAndRenderSirportlyData() {
   });
 }
 
-setInterval(fetchAndRenderSirportlyData, 30000);
+//setInterval(fetchAndRenderSirportlyData, 30000);
 fetchAndRenderSirportlyData();
 
