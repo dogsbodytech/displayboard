@@ -31,7 +31,13 @@ if (empty($apiHeaders)) {
     exit;
 }
 
-$spql = 'SELECT COUNT,users.first_name,users.last_name,status.name,status.status_type FROM tickets WHERE statuses.status_type != 1 GROUP BY users.first_name,users.last_name,status.name';
+if (isset($_GET['query']) && $_GET['query'] === 'stats') {
+    $spql = 'SELECT COUNT FROM tickets';
+    $cacheFile = '/dev/null';  // Don't cache
+} else {
+    $spql = 'SELECT COUNT,users.first_name,users.last_name,status.name,status.status_type FROM tickets WHERE statuses.status_type != 1 GROUP BY users.first_name,users.last_name,status.name';
+}
+
 $query = urlencode($spql);
 
 proxyRequest("$apiUrl/api/v2/tickets/spql?spql=$query", $apiHeaders, $cacheFile, $cacheDuration);
