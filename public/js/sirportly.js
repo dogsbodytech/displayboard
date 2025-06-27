@@ -70,6 +70,6 @@ function fetchAndRenderSirportlyData() {
   });
 }
 
-//setInterval(fetchAndRenderSirportlyData, 30000);
+setInterval(fetchAndRenderSirportlyData, 30000);
 fetchAndRenderSirportlyData();
 
